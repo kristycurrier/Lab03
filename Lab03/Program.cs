@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Lab03
 {
@@ -12,8 +13,9 @@ namespace Lab03
         {
             int number = 0;
             bool validNumber = false;
-            string userName= " ";
+            string userName = "";
             bool loopAgain = true;
+
 
             Console.Write("Hi, what is your name? ");
             userName = Console.ReadLine();
@@ -21,35 +23,38 @@ namespace Lab03
 
             do
             {
+
                 do
                 {
-                    do
+                    Console.Write($"\n{userName} please enter a number between 1 and 100: ");
+
+                    var numberString = Console.ReadLine();
+                    var regex = @"^(?:100|[1-9][0-9]?)$"; // regular number expression for 1-100
+
+                    if (Regex.IsMatch(numberString, regex) && int.TryParse(numberString, out number)) //check Regex match true and output a number
                     {
-                        Console.Write($"\n{userName} please enter a number between 1 and 100: ");
-                        validNumber = int.TryParse(Console.ReadLine(), out number);  //check that an integer was entered
+                        validNumber = true;
+                    }
 
-                        if (validNumber == false)  //Give the user a note that it wasn't an integer
-                        {
-                            Console.WriteLine($"Sorry {userName} that doesn't seem like a valid number, try it again.");
-                        }
-                        if (validNumber == true && number < 1 || number > 100) //check the number is in range
-                        {
-                            Console.WriteLine($"Sorry {userName} that number isn't between 1 and 100.");
-                        }
-                    } while (validNumber == false);
+                    if (validNumber == false)
+                    {
+                        Console.WriteLine($"Sorry {userName}, that is not a valid entry.");
+                    }
+                } while (validNumber == false);
 
-                } while (number < 1 || number > 100);  //loop until a valid integer between 1 and 100 is entered
-
-                if (number%2 != 0)
+                if (number % 2 != 0)
                 {
                     Console.WriteLine($"{number} and odd");
-                }else if (number%2 == 0 && number<26)
+                }
+                else if (number % 2 == 0 && number < 26)
                 {
                     Console.WriteLine($"Even and less than 25");
-                } else if (number%2 == 0 && number > 25 && number <= 60)
+                }
+                else if (number % 2 == 0 && number > 25 && number <= 60)
                 {
                     Console.WriteLine("Even");
-                } else if (number%2 == 0 && number>60)
+                }
+                else if (number % 2 == 0 && number > 60)
                 {
                     Console.WriteLine($"{number} and even");
                 }
@@ -58,16 +63,23 @@ namespace Lab03
 
                 do
                 {
+                    var regexY = @"^(y|Y)$";
+                    var regexN = @"^(n|N)$";
+                    validNumber = false;
+
                     Console.Write($"Would you like to continue {userName}? (y/n): ");
+
                     var ynContinue = Console.ReadLine();
 
-                    if (ynContinue.Equals("y", StringComparison.OrdinalIgnoreCase))
+                    if (Regex.IsMatch(ynContinue, regexY))
                     {
                         loopAgain = true;
                         realYesNoAnswer = true;
                     }
-                    else if (ynContinue.Equals("n", StringComparison.OrdinalIgnoreCase))
+                    else if (Regex.IsMatch(ynContinue, regexN))
                     {
+                        Console.WriteLine("Bye!");
+                        Console.ReadKey();
                         loopAgain = false;
                         realYesNoAnswer = true;
                     }
