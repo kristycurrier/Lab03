@@ -7,9 +7,7 @@ namespace Lab03
     {
         static void Main(string[] args)
         {
-            Console.Write("Hi, what is your name? ");
-            string userName = Console.ReadLine();
-            Console.WriteLine($"Nice to meet you {userName}!");
+            string userName = GetName(); //get name of the user
 
             bool loopAgain = true;
 
@@ -20,8 +18,16 @@ namespace Lab03
                 PrintValue(number);   //Method to print value and even/odd
 
                 loopAgain = ContinueTheProgram(userName); // Yes or no to continue the program
-                
+
             } while (loopAgain);
+        }
+
+        static public string GetName()
+        {
+            Console.Write("Hi, what is your name? ");
+            string userName = Console.ReadLine();
+            Console.WriteLine($"Nice to meet you {userName}!");
+            return userName;
         }
 
         static public int GetNumberCheckValid(string userName)
